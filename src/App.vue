@@ -87,6 +87,10 @@ html, body {
   padding-bottom: 20em; /* height of footer */
 }
 
+#about, #fof {
+  text-align: center;
+}
+
 .footer {
   position: absolute;
   bottom: 0;
