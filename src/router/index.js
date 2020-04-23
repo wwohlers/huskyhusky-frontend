@@ -13,15 +13,13 @@ const routes = [
   {
     path: '/archive',
     name: 'archive',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/Archive.vue')
   },
   {
     path: '/article/:name',
     name: 'article',
-    component: () => import('../views/Article.vue')
+    component: () => import('../views/Article.vue'),
+    props: true,
   },
   {
     path: '/about',
@@ -62,7 +60,18 @@ const routes = [
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes,
+  scrollBehavior: (to, from, savedPosition) => {
+    if (savedPosition) {
+      return savedPosition;
+    } else if (to.hash) {
+      return {
+        selector: to.hash
+      };
+    } else {
+      return { x: 0, y: 0 };
+    }
+  }
 })
 
 export default router

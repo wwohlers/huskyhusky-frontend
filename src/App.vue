@@ -94,7 +94,7 @@ html, body {
 }
 
 .main {
-  width: 80%;
+  width: 70%;
   margin: 30px auto 30px;
 }
 

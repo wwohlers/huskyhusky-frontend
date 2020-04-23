@@ -20,7 +20,7 @@
           <br/><hr/>
           <div class="share">
             <p class="title">Share</p>
-            <div class="sharethis-inline-share-buttons"></div>
+            <Share :url="articleUrl"></Share>
           </div>
         </div>
       </div>
@@ -31,6 +31,7 @@
 <script>
 import Subscribe from '../components/Subscribe';
 import Axios from 'axios';
+import Share from '../components/Share';
 import {http} from '../../global';
 
 export default {
@@ -43,7 +44,8 @@ export default {
     }
   },
   components: {
-    Subscribe
+    Subscribe,
+    Share
   },
   computed: {
     date() {
@@ -57,6 +59,7 @@ export default {
     }
   },
   beforeRouteEnter (to, from, next) {
+    console.log("yes");
     const name = to.params.name;
     const url = http + "/articles/" + name;
     Axios.get(url)
@@ -73,6 +76,7 @@ export default {
     })
   },
   beforeRouteUpdate (to, from, next) {
+    console.log("yes");
     const self = this;
     const name = to.params.name;
     const url = http + "/articles/" + name;
@@ -125,11 +129,8 @@ export default {
     }
   },
   mounted() {
+    console.log("yes");
     this.getAuthorName();
-
-    let share = document.createElement('script');
-    share.setAttribute('src', 'https://platform-api.sharethis.com/js/sharethis.js#property=5e72532377bcc200125bda8a&product=inline-share-buttons');
-    document.head.appendChild(share);
   },
   watch: {
     article: function(val) {

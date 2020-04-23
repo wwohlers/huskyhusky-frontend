@@ -26,9 +26,10 @@
       <button @click="changePassword">Change Password</button>
     </div>
     <br><br>
-    <div>
+    <div v-if="user.admin">
       <h2>Manage Users and Admins</h2>
-      <Manage :user="user" v-if="user.admin"></Manage>
+      <CreateUser></CreateUser>
+      <Manage :user="user"></Manage>
     </div>
     <button @click="signout">Sign Out</button>
   </div>
@@ -36,12 +37,14 @@
 
 <script>
 import Manage from '../components/Manage';
+import CreateUser from '../components/CreateUser.vue';
 import {http} from '../../global';
 
 export default {
   name: 'Account',
   components: {
-    Manage
+    Manage,
+    CreateUser
   },
   props: {
     user: Object,

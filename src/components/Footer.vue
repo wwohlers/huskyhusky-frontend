@@ -55,7 +55,7 @@ export default {
 }
 
 .footer-container {
-  width: 80%;
+  width: 70%;
   margin: auto;
 }
 
