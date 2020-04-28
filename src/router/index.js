@@ -56,6 +56,28 @@ const routes = [
     component: () => import('../views/Applications.vue')
   },
   {
+    path: '/request',
+    name: 'request',
+    component: () => import('../views/Request.vue')
+  },
+  {
+    path: '/reset/:id/:_key',
+    name: 'reset',
+    component: () => import('../views/Reset.vue'),
+    props: true
+  },
+  {
+    path: '/bulk',
+    name: 'bulk',
+    component: () => import('../views/Bulk.vue'),
+  },
+  {
+    path: '/unsubscribe/:email',
+    name: 'unsubscribe',
+    component: () => import('../views/Unsubscribe.vue'),
+    props: true
+  },
+  {
     path: '*',
     name: '404',
     component: () => import('../views/404.vue')

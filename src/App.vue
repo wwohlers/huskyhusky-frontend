@@ -18,6 +18,14 @@ export default {
     Nav,
     Footer
   },
+  metaInfo: {
+    titleTemplate: '%s | Husky Husky',
+    meta: [
+      { charset: 'utf-8' },
+      { name: 'description', content: 'A Northeastern student-run satire magazine which pokes fun at school administration, students, and the greater Boston area.' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' }
+    ]
+  },
   data() {
     return {
       user: null,
@@ -115,6 +123,11 @@ ul {
   list-style: none;
 }
 
+/*router-link*/
+a, .a {
+  color: black;
+}
+
 /***** FORMS, INPUTS, BUTTONS *******/
 form {
   width: 60%;
@@ -127,7 +140,11 @@ form {
   display: inline-block;
 }
 
-.center > .form-item{
+.center {
+  text-align: center;
+}
+
+.center > .form-item {
   text-align: center;
 }
 
@@ -175,5 +192,23 @@ button {
 .small {
   font-size: 14px;
   padding: 6px 9px 6px 9px;
+}
+
+@media only screen and (max-width: 600px) {
+  #wrapper {
+    padding-bottom: 40em;
+  }
+
+  .main {
+    width: 80%;
+  }
+
+  h1 {
+    margin-bottom: 0;
+  }
+
+  form {
+    width: 90%;
+  }
 }
 </style>

@@ -41,6 +41,9 @@ import CreateUser from '../components/CreateUser.vue';
 import {http} from '../../global';
 
 export default {
+  metaInfo: {
+    title: 'Account'
+  },
   name: 'Account',
   components: {
     Manage,

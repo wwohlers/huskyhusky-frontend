@@ -5,13 +5,20 @@ import axios from 'axios';
 import VueAxios from 'vue-axios';
 import VueCookie from 'vue-cookie';
 import VueQuill from 'vue-quill';
+import VueMeta from 'vue-meta';
 import moment from 'moment';
+import VuePageTitle from 'vue-page-title'
 
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
 Vue.use(VueCookie);
 Vue.use(VueQuill);
+Vue.use(VueMeta);
 Vue.prototype.moment = moment;
+
+Vue.use(VuePageTitle, {
+  suffix: ' - The Husky Husky'
+})
 
 new Vue({
   router,

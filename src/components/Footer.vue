@@ -1,7 +1,7 @@
 <template>
   <div class="footer">
     <div class="footer-container">
-      <div>
+      <div class="footer-item">
         <p class="mini-title">The Husky Husky</p>
           <a @click="route('home')">Home</a>
           <a @click="route('archive')">Archive</a>
@@ -9,10 +9,10 @@
           <a @click="route('signIn')">Sign In</a>
           <a @click="route('apply')">Apply</a>
       </div>
-      <div>
+      <div class="footer-item">
         <Subscribe></Subscribe>
       </div>
-      <div>
+      <div class="footer-item">
         <p>&copy; {{ year }} The Husky Husky</p>
         <p><a href="https://billwohlers.com">Designed by Bill Wohlers</a></p>
       </div>
@@ -52,9 +52,6 @@ export default {
 .footer-container {
   display: grid;
   grid-template-columns: 2fr 2fr 1fr;
-}
-
-.footer-container {
   width: 70%;
   margin: auto;
 }
@@ -70,5 +67,25 @@ a {
   text-decoration: none;
   color: white;
   display: block;
+}
+
+@media only screen and (max-width: 600px) {
+  .footer {
+    padding: 20px 0 30px 0;
+  }
+  
+  .footer-container {
+    grid-template-columns: 1fr;
+    grid-gap: 1em;
+  }
+
+  .footer-item {
+    padding-bottom: 2em;
+    border-bottom: 1px solid white;
+  }
+
+  .footer-item:last-child {
+    border-bottom: none;
+  }
 }
 </style>

@@ -51,6 +51,9 @@ import ArchiveList from '../components/ArchiveList';
 import {http} from '../../global';
 
 export default {
+  metaInfo: {
+    title: 'Write'
+  },
   name: 'Write',
   props: {
     user: Object,

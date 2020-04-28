@@ -8,16 +8,14 @@
     <p>
       Our writing is generally absurdist and satirical, but anything that makes us laugh will get published. Generally, we try to find humor in local school issues.  Northeastern takes itself too seriously - and there's a lot of good comedy that springs up from that simple fact.
     </p>
-    <Subscribe></Subscribe>
   </div>
 </template>
 
 <script>
-import Subscribe from '../components/Subscribe';
-
 export default {
-  name: 'About',
-  components: {
-    Subscribe
+  metaInfo: {
+    title: 'About'
   },
+  name: 'About'
 }
+</script>

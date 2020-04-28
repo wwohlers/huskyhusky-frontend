@@ -41,4 +41,16 @@ img {
   margin-top: 10px;
   font-size: 18px;
 }
+
+@media only screen and (max-width: 600px) {
+  .title {
+    font-size: 24px;
+    margin-top: 6px;
+  }
+
+  .brief {
+    font-size: 15px;
+    margin-top: 6px;
+  }
+}
 </style>

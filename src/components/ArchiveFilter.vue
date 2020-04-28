@@ -51,13 +51,11 @@ export default {
     filter() {
       const args = {month: this.selectedMonth, year: this.selectedYear}
       this.$emit('filter', args);
-      console.log("Emitted filter", args);
     },
 
     search() {
       const query = this.query;
       this.$emit('search', query);
-      console.log("Emitted search", query);
     },
 
     clear() {

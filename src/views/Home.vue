@@ -12,6 +12,9 @@ import ArticleClip from '../components/ArticleClip'
 import {http} from '../../global';
 
 export default {
+  metaInfo: {
+    title: 'Home'
+  },
   name: 'Home',
   components: {
     ArticleClip
@@ -42,5 +45,21 @@ export default {
 .articles :first-child {
   grid-column: 1 / 3;
   grid-row: 1 / 3;
+}
+
+@media only screen and (max-width: 600px) {
+  .articles {
+    grid-template-columns: 1fr;
+    grid-gap: 0;
+  }
+
+  .articles :first-child {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+  }
+
+  .article-clip {
+    margin: 1em 0 1em 0;
+  }
 }
 </style>

@@ -1,12 +1,16 @@
 <template>
   <div>
     <div v-if="notFound">
-      <p>Sorry, the article you were looking for can't be found.</p>
+      <h1>Not found</h1>
+      <p class="center">
+        We looked everywhere, but we couldn't find that article.
+        View our <router-link to="/archive">archive</router-link> to see our published articles.
+        </p>
     </div>
     <div v-if="article">
       <div class="article-container">
         <div class="article">
-      <p class="article-title">{{ article.title }}</p>
+          <p class="article-title">{{ article.title }}</p>
           <p>{{ date }} &bullet; By {{ authorName }}</p>
           <img :src="article.image" />
           <br>
@@ -35,7 +39,9 @@ import Share from '../components/Share';
 import {http} from '../../global';
 
 export default {
-  name: 'Article',
+  metaInfo: {
+    title: 'Article'
+  },
   data() {
     return {
       article: null,
@@ -95,6 +101,7 @@ export default {
       this.notFound = false;
       if (this.safe(article.text)) {
         this.article = article;
+        this.$title = article.title;
       }
     },
 
@@ -115,7 +122,6 @@ export default {
         const url = http + "/users/" + author;
         this.axios.get(url)
         .then((response) => {
-          console.log(response);
           if (response.data.name) {
             self.authorName = response.data.name;
           } else {
@@ -129,7 +135,6 @@ export default {
     }
   },
   mounted() {
-    console.log("yes");
     this.getAuthorName();
   },
   watch: {
@@ -175,5 +180,20 @@ p {
   font-size: 20px;
   font-family: 'Raleway';
   text-transform: uppercase;
+}
+
+@media only screen and (max-width: 600px) {
+  .article-container {
+    grid-template-columns: 1fr;
+    grid-row-gap: 1em;
+  }
+
+  .article-title {
+    font-size: 36px;
+  }
+
+  p {
+    font-size: 15px;
+  }
 }
 </style>

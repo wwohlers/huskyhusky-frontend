@@ -4,3 +4,11 @@
     <p>We looked everywhere but still can't find what you're looking for. Sorry about that.</p>
   </div>
 </template>
+
+<script>
+export default {
+  metaInfo: {
+    title: 'Not Found'
+  }
+}
+</script>
