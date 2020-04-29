@@ -11,12 +11,11 @@
       <div class="article-container">
         <div class="article">
           <p class="article-title">{{ article.title }}</p>
-          <p>{{ date }} &bullet; By {{ authorName }}</p>
+          <p class="article-sub">{{ date }} &bullet; By {{ authorName }}</p>
           <img :src="article.image" />
           <br>
-          <br>
           <p><i>{{ article.brief }}</i></p>
-          <br><br>
+          <br>
           <div class="article-content" v-html="article.text"></div>
         </div>
         <div class="sidebar" v-if="article">
@@ -56,7 +55,7 @@ export default {
   computed: {
     date() {
       if (this.article) {
-        return this.moment(this.article.created_at).format('MMMM Do, YYYY, h:mm A');
+        return this.moment(this.article.created_at).format('dddd, MMMM Do, YYYY');
       }
       return "";
     },
@@ -157,10 +156,17 @@ export default {
   font-family: "Lora";
   font-size: 48px;
   margin: 0 0 20px 0;
+  cursor: pointer;
+}
+
+.article-sub {
+  font-size: 18px;
+  color: #333333;
 }
 
 .article-content {
   font-size: 18px;
+  line-height: 1.6;
 }
 
 p {
@@ -169,6 +175,7 @@ p {
 
 .article img {
   width: 100%;
+  object-fit: cover;
 }
 
 .sidebar {

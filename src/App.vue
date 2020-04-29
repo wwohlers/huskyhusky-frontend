@@ -128,6 +128,10 @@ a, .a {
   color: black;
 }
 
+.error {
+  color: red;
+}
+
 /***** FORMS, INPUTS, BUTTONS *******/
 form {
   width: 60%;
@@ -166,8 +170,12 @@ input[type="text"],input[type="password"],textarea {
   font-size: 16px;
   padding: 10px;
   border: 1px solid #CCCCCC;
-  width: 250px;
+  width: 15em;
   font-family: 'Raleway';
+}
+
+input.long {
+  width: 100%;
 }
 
 select {

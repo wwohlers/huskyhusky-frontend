@@ -1,6 +1,6 @@
 <template>
-  <div @click="go(article)">
-    <img class="thumbnail" :src="article.image" />
+  <div :class="cl" @click="go(article)">
+    <img :src="article.image" />
     <p class="title">{{ article.title }}</p>
     <p class="brief">{{ article.brief }}</p>
   </div>
@@ -10,7 +10,8 @@
 export default {
   name: 'ArticleClip',
   props: {
-    article: Object
+    article: Object,
+    cl: String
   },
   methods: {
     go(article) {
@@ -26,8 +27,17 @@ div {
   cursor: pointer;
 }
 
-img {
+.first img {
   width: 100%;
+  height: 30em;
+  object-fit: cover;
+  margin-bottom: 1em;
+}
+
+.rest img {
+  width: 100%;
+  height: 15em;
+  object-fit: cover;
 }
 
 .title {
@@ -37,8 +47,16 @@ img {
   text-transform: uppercase;
 }
 
+.first .title {
+  font-size: 36px;
+}
+
 .brief {
   margin-top: 10px;
+  font-size: 16px;
+}
+
+.first .brief {
   font-size: 18px;
 }
 

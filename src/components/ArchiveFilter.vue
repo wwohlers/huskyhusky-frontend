@@ -35,6 +35,7 @@ export default {
     for (var i = start; i <= current; i++) {
       this.years.push(i);
     }
+    this.filter();
   },
   computed: {
     getMonths() {

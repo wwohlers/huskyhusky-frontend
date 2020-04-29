@@ -1,7 +1,7 @@
 <template>
     <div id="nav">
       <img class="hamburger" @click="toggle" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Hamburger_icon.svg/1200px-Hamburger_icon.svg.png"/>
-      <img class="logo" src="http://thehuskyhusky.com/uploads/1/2/6/2/126206759/published/logo_2.png?1574120038"/>
+      <img class="logo" src="../assets/biglogo.png"/>
       <div class="links">
         <router-link class="link" @click.native="hide" to="/">Home</router-link>
         <router-link class="link" @click.native="hide" to="/archive">Archive</router-link>
@@ -67,6 +67,7 @@ export default {
 .logo {
   display: block;
   margin: auto;
+  width: 15em;
 }
 
 .links {

@@ -46,16 +46,6 @@ const routes = [
     name: 'signUp'
   },
   {
-    path: '/apply',
-    name: 'apply',
-    component: () => import('../views/Apply.vue')
-  }, 
-  {
-    path: '/applications',
-    name: 'applications',
-    component: () => import('../views/Applications.vue')
-  },
-  {
     path: '/request',
     name: 'request',
     component: () => import('../views/Request.vue')

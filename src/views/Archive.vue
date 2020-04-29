@@ -3,7 +3,6 @@
     <h1>Archive</h1>
     <button v-if="user" @click="newArticle">+ New Article</button> <br/><br/>
     <button v-if="admin" @click="bulk">+ New Bulk Email</button>
-    <button v-if="admin" @click="applications">View Applications</button>
     <ArchiveList :user="user"></ArchiveList>
   </div>
 </template>

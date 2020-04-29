@@ -7,7 +7,6 @@
           <a @click="route('archive')">Archive</a>
           <a @click="route('about')">About Us</a>
           <a @click="route('signIn')">Sign In</a>
-          <a @click="route('apply')">Apply</a>
       </div>
       <div class="footer-item">
         <Subscribe></Subscribe>

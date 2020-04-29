@@ -51,7 +51,7 @@ p {
 }
 
 #subscribe {
-  width: 150px;
+  width: 15em;
   font-size: 16px;
 }
 </style>

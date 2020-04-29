@@ -20,7 +20,7 @@ import {http} from '../../global';
 
 export default {
   metaInfo: {
-    title: 'Reset Password'
+    title: 'Reset Password '
   },
   name: 'Request',
   data() {
@@ -37,6 +37,7 @@ export default {
       const body = {
         email: this.email
       };
+      console.log(url, body);
       this.axios.post(url, body)
       .then((response) => {
         self.showResponse = true;
