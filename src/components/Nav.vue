@@ -1,7 +1,7 @@
 <template>
     <div id="nav">
       <img class="hamburger" @click="toggle" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Hamburger_icon.svg/1200px-Hamburger_icon.svg.png"/>
-      <img class="logo" src="../assets/biglogo.png"/>
+      <router-link to="/"><img class="logo" src="../assets/biglogo.png"/></router-link>
       <div class="links">
         <router-link class="link" @click.native="hide" to="/">Home</router-link>
         <router-link class="link" @click.native="hide" to="/archive">Archive</router-link>

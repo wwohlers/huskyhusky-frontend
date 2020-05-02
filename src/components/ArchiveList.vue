@@ -2,7 +2,7 @@
   <div class="archive-list">
     <ArchiveFilter @filter="filter" @search="search" @clear="clear" class="filter"></ArchiveFilter>
     <p v-if="noArticles">No articles match these criteria.</p>
-    <ArticleItem :user="user" v-for="article in articles" :key="article.id" :article="article"></ArticleItem>
+    <ArticleItem :user="user" v-for="article in sortedArticles" :key="article.id" :article="article"></ArticleItem>
   </div>
 </template>
 
@@ -23,11 +23,9 @@ export default {
   data() {
     return {
       articles: [],
+      sortedArticles: [],
       noArticles: false
     }
-  },
-  mounted() {
-    this.loadArticles();
   },
   methods: {
     loadArticles() {
@@ -45,7 +43,6 @@ export default {
     },
 
     filter(args) {
-      console.log(args);
       const self = this;
       const url = http + "/filter";
       this.axios.post(url, args)
@@ -90,6 +87,9 @@ export default {
       } else {
         this.noArticles = false;
       }
+
+      let arts = val;
+      this.sortedArticles = arts;
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="subscribe">
     <p>Stay Updated</p>
-    <input type="text" placeholder="Email" id="subscribe" v-model="email"/>
+    <input type="text" placeholder="Email" class="subscribe" v-model="email"/>
     <br><br>
     <p v-if="response">{{ response }}</p>
     <button type="submit" @click="subscribe">Subscribe</button>
@@ -50,7 +50,7 @@ p {
   text-transform: uppercase;
 }
 
-#subscribe {
+.subscribe {
   width: 15em;
   font-size: 16px;
 }
