@@ -101,6 +101,12 @@ export default {
       if (this.safe(article.text)) {
         this.article = article;
         this.$title = article.title;
+
+        this.$ga.page({
+          page: `/${article.name}`,
+          title: article.title,
+          location: window.location.href
+        });
       }
     },
 

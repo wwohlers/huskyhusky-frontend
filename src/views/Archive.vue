@@ -22,6 +22,13 @@ export default {
   props: {
     user: Object
   },
+  mounted() {
+    this.$ga.page({
+      page: '/archive',
+      title: 'Archive',
+      location: window.location.href
+    });
+  },
   methods: {
     newArticle() {
       const self = this;

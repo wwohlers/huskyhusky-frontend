@@ -40,6 +40,12 @@ export default {
       articles.shift();
       self.restArticles = articles;
     })
+
+    this.$ga.page({
+      page: '/',
+      title: 'Home',
+      location: window.location.href
+    });
   }
 }
 </script>
