@@ -65,7 +65,6 @@ export default {
     }
   },
   beforeRouteEnter (to, from, next) {
-    console.log("yes");
     const name = to.params.name;
     const url = http + "/articles/" + name;
     Axios.get(url)

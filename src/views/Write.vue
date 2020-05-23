@@ -39,6 +39,7 @@
         <input type="text" id="attr" v-model="attr" />
       </div>
       <div class="form-item">
+        <p>Link formatting: %%%https://link.com|||Link Text###</p>
         <quill v-model="content" output="html"></quill>
       </div>
       <div class="form-item">
