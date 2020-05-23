@@ -3,14 +3,14 @@
     <h1>Edit Article</h1>
     <link href="https://cdn.quilljs.com/1.2.6/quill.snow.css" rel="stylesheet">
     <form @submit.prevent class="center">
-      <span v-if="errorMessage">{{ errorMessage }}</span> <br />
+      <span class="error" v-if="errorMessage">{{ errorMessage }}</span> <br />
       <div class="form-item">
         <label for="name">Name</label>
-        thehuskyhusky.com/article/<input type="text" style="display: inline-block" id="name" v-model="name" />
+        thehuskyhusky.com/article/<input type="text" style="display: inline-block" class="long" id="name" v-model="name" />
       </div>
       <div class="form-item">
         <label for="title">Title</label>
-        <input type="text" id="title" v-model="title" @input="generateName"/> 
+        <input type="text" id="title" class="long" v-model="title" @input="generateName"/> 
       </div>
       <div class="form-item">
         <label for="category">Category</label>
@@ -28,11 +28,11 @@
       </div>
       <div class="form-item">
         <label for="brief">Brief</label>
-        <input type="text" id="brief" v-model="brief" />
+        <input type="text" id="brief" class="long" v-model="brief" />
       </div>
       <div class="form-item">
         <label for="image">Image</label>
-        <input type="text" id="image" v-model="image" />
+        <input type="text" id="image" class="long" v-model="image" />
       </div>
       <div class="form-item">
         <label for="attr">Image Attribute</label>
@@ -58,6 +58,7 @@
       </div>
       <div class="form-item">
         <p>Note: all changes, including changes to publicity, do not take effect until you click "Save".</p>
+        <span class="error" v-if="errorMessage">{{ errorMessage }}</span> <br />
         <button @click="save">Save</button>
       </div>
     </form>
@@ -69,6 +70,9 @@ import ArchiveList from '../components/ArchiveList';
 import {http} from '../../global';
 
 export default {
+  metaInfo: {
+    title: 'Write'
+  },
   name: 'Write',
   props: {
     user: Object,
@@ -177,7 +181,7 @@ export default {
     },
 
     generateName() {
-      this.name = this.title.replace(/\s+/g, '-').toLowerCase();
+      this.name = this.title.trim().replace(/\s+/g, '-').toLowerCase();
     },
 
     togglePublic() {
@@ -217,12 +221,6 @@ export default {
       })
       .catch((error) => {
       })
-
-      // Validate title, check length 
-      if (this.title.length >= 100) {
-        this.errorMessage = "Title cannot be more than 100 characters";
-        return false;
-      }
 
       return true;
     }

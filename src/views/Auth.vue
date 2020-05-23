@@ -11,6 +11,8 @@
         <input type="password" id="password" v-model="password" />
       </div>
       <div class="form-item">
+        <p v-if="response">{{ response }}</p>
+        <p><router-link to="/request">Forgot your password?</router-link></p>
         <button type="submit" @click="signin">Sign In</button>
       </div>
     </form>
@@ -21,11 +23,15 @@
 import {http} from '../../global';
 
 export default {
+  metaInfo: {
+    title: 'Sign In'
+  },
   name: 'Auth',
   data() {
     return {
       email: '',
-      password: ''
+      password: '',
+      response: ''
     }
   },
   methods: {
@@ -44,11 +50,11 @@ export default {
           self.$router.push({name: 'archive'});
           self.$emit('auth');
         } else {
-          console.log("Authentication failed");
+          self.response = "Sign in failed. Make sure you've entered the correct email and password.";
         }
       })
       .catch(function (error) {
-        console.log(error);
+          self.response = "Sign in failed. Make sure you've entered the correct email and password.";
       });
     }
   }

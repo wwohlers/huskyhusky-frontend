@@ -13,15 +13,13 @@ const routes = [
   {
     path: '/archive',
     name: 'archive',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/Archive.vue')
   },
   {
     path: '/article/:name',
     name: 'article',
-    component: () => import('../views/Article.vue')
+    component: () => import('../views/Article.vue'),
+    props: true,
   },
   {
     path: '/about',
@@ -48,14 +46,26 @@ const routes = [
     name: 'signUp'
   },
   {
-    path: '/apply',
-    name: 'apply',
-    component: () => import('../views/Apply.vue')
-  }, 
+    path: '/request',
+    name: 'request',
+    component: () => import('../views/Request.vue')
+  },
   {
-    path: '/applications',
-    name: 'applications',
-    component: () => import('../views/Applications.vue')
+    path: '/reset/:id/:_key',
+    name: 'reset',
+    component: () => import('../views/Reset.vue'),
+    props: true
+  },
+  {
+    path: '/bulk',
+    name: 'bulk',
+    component: () => import('../views/Bulk.vue'),
+  },
+  {
+    path: '/unsubscribe/:email',
+    name: 'unsubscribe',
+    component: () => import('../views/Unsubscribe.vue'),
+    props: true
   },
   {
     path: '/author/:id',
@@ -72,7 +82,18 @@ const routes = [
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes,
+  scrollBehavior: (to, from, savedPosition) => {
+    if (savedPosition) {
+      return savedPosition;
+    } else if (to.hash) {
+      return {
+        selector: to.hash
+      };
+    } else {
+      return { x: 0, y: 0 };
+    }
+  }
 })
 
 export default router

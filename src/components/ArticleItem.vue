@@ -43,6 +43,10 @@ export default {
       return "/write/" + this.article._id;
     },
 
+    date() {
+      return this.moment(this.article.created_at).format('dddd, MMMM Do');
+    },
+
     suggestPublication() {
       return this.article.requested && !this.article.public;
     },
@@ -72,7 +76,7 @@ img {
 
 .article-item {
   display: grid;
-  grid-template-columns: 1fr 5fr 1fr;
+  grid-template-columns: 2fr 6fr 1fr;
   gap: 20px;
   margin: 30px 0 30px 0;
   padding: 40px 0 40px 0;
@@ -95,5 +99,15 @@ img {
 
 .item-child {
   cursor: pointer;
+}
+
+@media only screen and (max-width: 600px) {
+  img {
+    width: 100%;
+  }
+
+  .article-item {
+    grid-template-columns: 1fr;
+  }
 }
 </style>

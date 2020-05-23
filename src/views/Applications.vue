@@ -18,6 +18,9 @@
 import {http} from '../../global';
 
 export default {
+  metaInfo: {
+    title: 'Applications'
+  },
   name: 'Applications',
   data() {
     return {

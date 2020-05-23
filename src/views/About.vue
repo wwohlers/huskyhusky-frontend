@@ -11,19 +11,16 @@
     <p>Interested in writing for us? 
       <a 
         href="https://docs.google.com/forms/d/1-BNGDS9ixzgqtM4XVMzrXhsAvYs6CjNZMTwUnf6iFVE/edit#response=ACYDBNiKRCvHHKAGrMH32_IMd9PR9hOqDvUdn6sCuHzeNNPOije9bnexbE4nGEDQaDlgle0">
-        Click here
-      </a> to apply!
+        Click here</a> to apply!
     </p>
-    <Subscribe></Subscribe>
   </div>
 </template>
 
 <script>
-import Subscribe from '../components/Subscribe';
-
 export default {
-  name: 'About',
-  components: {
-    Subscribe
+  metaInfo: {
+    title: 'About'
   },
+  name: 'About'
 }
+</script>

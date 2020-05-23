@@ -2,6 +2,7 @@
   <div class="archive-list">
     <ArchiveFilter @filter="filter" @search="search" @category="category" @clear="clear" class="filter"></ArchiveFilter>
     <ArticleItem :user="user" v-for="article in getPage" :key="article.id" :article="article"></ArticleItem>
+    <p v-if="noArticles">No articles match these criteria.</p>
     <div class="page">
       <button @click="prev">Prev</button>
       &nbsp;
@@ -30,6 +31,7 @@ export default {
     return {
       articles: [],
       page: 0,
+      noArticles: false,
     }
   },
   mounted() {
@@ -57,8 +59,13 @@ export default {
       console.log(url);
       this.axios.get(url)
       .then((response) => {
-        self.articles = response.data.articles;
-      })
+        const articles = response.data.articles;
+        if (articles) {
+          self.articles = response.data.articles.filter((article) => {
+            return this.user || article.public;
+          });
+        }
+      });
     },
 
     filter(args) {
@@ -69,7 +76,9 @@ export default {
       .then((response) => {
         const articles = response.data.articles;
         if (articles) {
-          self.articles = articles;
+          self.articles = response.data.articles.filter((article) => {
+            return this.user || article.public;
+          });
         }
       })
       .catch((error) => {
@@ -101,7 +110,9 @@ export default {
       .then((response) => {
         const articles = response.data.articles;
         if (articles) {
-          self.articles = articles;
+          self.articles = response.data.articles.filter((article) => {
+            return this.user || article.public;
+          });
         }
       })
       .catch((error) => {
@@ -123,6 +134,18 @@ export default {
 
     clear() {
       this.loadArticles();
+    }
+  },
+  watch: {
+    articles: function(val) {
+      if (val.length == 0) {
+        this.noArticles = true;
+      } else {
+        this.noArticles = false;
+      }
+
+      let arts = val;
+      this.sortedArticles = arts;
     }
   }
 }

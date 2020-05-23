@@ -45,6 +45,7 @@ export default {
       this.years.push(i);
     }
     this.getCategories();
+    this.filter();
   },
   computed: {
     getMonths() {

@@ -1,8 +1,8 @@
 <template>
   <div>
     <h1>Archive</h1>
-    <button v-if="user" @click="newArticle">+ New Article</button> <br/>
-    <button v-if="admin" @click="applications">View Applications</button>
+    <button v-if="user" @click="newArticle">+ New Article</button> <br/><br/>
+    <button v-if="admin" @click="bulk">+ New Bulk Email</button>
     <ArchiveList :user="user"></ArchiveList>
   </div>
 </template>
@@ -12,12 +12,22 @@ import ArchiveList from '../components/ArchiveList';
 import {http} from '../../global';
 
 export default {
+  metaInfo: {
+    title: 'Archive'
+  },
   name: 'Archive',
   components: {
     ArchiveList,
   },
   props: {
     user: Object
+  },
+  mounted() {
+    this.$ga.page({
+      page: '/archive',
+      title: 'Archive',
+      location: window.location.href
+    });
   },
   methods: {
     newArticle() {
@@ -48,6 +58,10 @@ export default {
 
     applications() {
       this.$router.push({name: 'applications'});
+    },
+
+    bulk() {
+      this.$router.push({name: 'bulk'});
     }
   },
   computed: {

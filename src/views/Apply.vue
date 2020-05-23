@@ -26,6 +26,9 @@
 import {http} from '../../global';
 
 export default {
+  metaInfo: {
+    title: 'Apply'
+  },
   name: 'Apply',
   data() {
     return {

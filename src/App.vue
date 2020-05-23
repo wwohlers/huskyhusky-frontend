@@ -18,6 +18,14 @@ export default {
     Nav,
     Footer
   },
+  metaInfo: {
+    titleTemplate: '%s | Husky Husky',
+    meta: [
+      { charset: 'utf-8' },
+      { name: 'description', content: 'A Northeastern student-run satire magazine which pokes fun at school administration, students, and the greater Boston area.' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' }
+    ]
+  },
   data() {
     return {
       user: null,
@@ -98,7 +106,7 @@ html, body {
 }
 
 .main {
-  width: 80%;
+  width: 70%;
   margin: 30px auto 30px;
 }
 
@@ -115,8 +123,13 @@ ul {
   list-style: none;
 }
 
-a {
+/*router-link*/
+a, .a {
   color: black;
+}
+
+.error {
+  color: red;
 }
 
 /***** FORMS, INPUTS, BUTTONS *******/
@@ -131,7 +144,11 @@ form {
   display: inline-block;
 }
 
-.center > .form-item{
+.center {
+  text-align: center;
+}
+
+.center > .form-item {
   text-align: center;
 }
 
@@ -165,8 +182,12 @@ input[type="text"],input[type="password"],textarea {
   font-size: 16px;
   padding: 10px;
   border: 1px solid #CCCCCC;
-  width: 250px;
+  width: 15em;
   font-family: 'Raleway';
+}
+
+input.long {
+  width: 100%;
 }
 
 select {
@@ -191,5 +212,23 @@ button {
 .small {
   font-size: 14px;
   padding: 6px 9px 6px 9px;
+}
+
+@media only screen and (max-width: 600px) {
+  #wrapper {
+    padding-bottom: 40em;
+  }
+
+  .main {
+    width: 80%;
+  }
+
+  h1 {
+    margin-bottom: 0;
+  }
+
+  form {
+    width: 90%;
+  }
 }
 </style>

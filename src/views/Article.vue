@@ -1,12 +1,16 @@
 <template>
   <div>
     <div v-if="notFound">
-      <p>Sorry, the article you were looking for can't be found.</p>
+      <h1>Not found</h1>
+      <p class="center">
+        We looked everywhere, but we couldn't find that article.
+        View our <router-link to="/archive">archive</router-link> to see our published articles.
+        </p>
     </div>
     <div v-if="article">
       <div class="article-container">
         <div class="article">
-      <p class="article-title">{{ article.title }}</p>
+          <p class="article-title">{{ article.title }}</p>
           <p>{{ date }} &bullet; {{ article.category }} &bullet; By <router-link :to="{ name: 'author', params: { id: article.author } }">{{ authorName }}</router-link></p>
           <img :src="article.image" />
           <br>
@@ -20,7 +24,7 @@
           <br/><hr/>
           <div class="share">
             <p class="title">Share</p>
-            <div class="sharethis-inline-share-buttons"></div>
+            <Share :url="articleUrl"></Share>
           </div>
         </div>
       </div>
@@ -31,10 +35,13 @@
 <script>
 import Subscribe from '../components/Subscribe';
 import Axios from 'axios';
+import Share from '../components/Share';
 import {http} from '../../global';
 
 export default {
-  name: 'Article',
+  metaInfo: {
+    title: 'Article'
+  },
   data() {
     return {
       article: null,
@@ -43,12 +50,13 @@ export default {
     }
   },
   components: {
-    Subscribe
+    Subscribe,
+    Share
   },
   computed: {
     date() {
       if (this.article) {
-        return this.moment(this.article.created_at).format('MMMM Do, YYYY, h:mm A');
+        return this.moment(this.article.created_at).format('dddd, MMMM Do, YYYY');
       }
       return "";
     },
@@ -57,6 +65,7 @@ export default {
     }
   },
   beforeRouteEnter (to, from, next) {
+    console.log("yes");
     const name = to.params.name;
     const url = http + "/articles/" + name;
     Axios.get(url)
@@ -73,6 +82,7 @@ export default {
     })
   },
   beforeRouteUpdate (to, from, next) {
+    console.log("yes");
     const self = this;
     const name = to.params.name;
     const url = http + "/articles/" + name;
@@ -91,6 +101,13 @@ export default {
       this.notFound = false;
       if (this.safe(article.text)) {
         this.article = article;
+        this.$title = article.title;
+
+        this.$ga.page({
+          page: `/${article.name}`,
+          title: article.title,
+          location: window.location.href
+        });
       }
     },
 
@@ -111,7 +128,6 @@ export default {
         const url = http + "/users/" + author;
         this.axios.get(url)
         .then((response) => {
-          console.log(response);
           if (response.data.name) {
             self.authorName = response.data.name;
           } else {
@@ -126,10 +142,6 @@ export default {
   },
   mounted() {
     this.getAuthorName();
-
-    let share = document.createElement('script');
-    share.setAttribute('src', 'https://platform-api.sharethis.com/js/sharethis.js#property=5e72532377bcc200125bda8a&product=inline-share-buttons');
-    document.head.appendChild(share);
   },
   watch: {
     article: function(val) {
@@ -151,10 +163,17 @@ export default {
   font-family: "Lora";
   font-size: 48px;
   margin: 0 0 20px 0;
+  cursor: pointer;
+}
+
+.article-sub {
+  font-size: 18px;
+  color: #333333;
 }
 
 .article-content {
   font-size: 18px;
+  line-height: 1.6;
 }
 
 p {
@@ -169,6 +188,7 @@ p {
 
 .article img {
   width: 100%;
+  object-fit: cover;
 }
 
 .sidebar {
@@ -180,5 +200,20 @@ p {
   font-size: 20px;
   font-family: 'Raleway';
   text-transform: uppercase;
+}
+
+@media only screen and (max-width: 600px) {
+  .article-container {
+    grid-template-columns: 1fr;
+    grid-row-gap: 1em;
+  }
+
+  .article-title {
+    font-size: 36px;
+  }
+
+  p {
+    font-size: 15px;
+  }
 }
 </style>
