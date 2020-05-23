@@ -8,6 +8,12 @@
     <p>
       Our writing is generally absurdist and satirical, but anything that makes us laugh will get published. Generally, we try to find humor in local school issues.  Northeastern takes itself too seriously - and there's a lot of good comedy that springs up from that simple fact.
     </p>
+    <p>Interested in writing for us? 
+      <a 
+        href="https://docs.google.com/forms/d/1-BNGDS9ixzgqtM4XVMzrXhsAvYs6CjNZMTwUnf6iFVE/edit#response=ACYDBNiKRCvHHKAGrMH32_IMd9PR9hOqDvUdn6sCuHzeNNPOije9bnexbE4nGEDQaDlgle0">
+        Click here
+      </a> to apply!
+    </p>
     <Subscribe></Subscribe>
   </div>
 </template>

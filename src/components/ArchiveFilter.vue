@@ -1,5 +1,10 @@
 <template>
   <div>
+    <select v-model="cat" @change="category()">
+      <option disabled value="">Select a category...</option>
+      <option v-for="_cat in categories" :value="_cat" :key="_cat">{{ _cat }}</option>
+    </select>
+    <span> &mdash; OR &mdash; </span>
     <select v-model="selectedMonth" @change="filter()">
       <option disabled value="">Select one...</option>
       <option v-for="(month, index) in getMonths" :key="index" :value="index">{{ month }}</option>
@@ -15,6 +20,8 @@
 </template>
 
 <script>
+import {http} from '../../global';
+
 export default {
   name: 'ArchiveFilter',
   data() {
@@ -24,6 +31,8 @@ export default {
       selectedYear: 2020,
       selectedMonth: 0,
       query: '',
+      categories: [],
+      cat: '',
     }
   },
   mounted() {
@@ -35,6 +44,7 @@ export default {
     for (var i = start; i <= current; i++) {
       this.years.push(i);
     }
+    this.getCategories();
   },
   computed: {
     getMonths() {
@@ -51,13 +61,16 @@ export default {
     filter() {
       const args = {month: this.selectedMonth, year: this.selectedYear}
       this.$emit('filter', args);
-      console.log("Emitted filter", args);
     },
 
     search() {
       const query = this.query;
       this.$emit('search', query);
-      console.log("Emitted search", query);
+    },
+
+    category() {
+      const cat = this.cat;
+      this.$emit('category', cat);
     },
 
     clear() {
@@ -67,7 +80,20 @@ export default {
       const current = date.getFullYear();
       this.selectedYear = current;
       this.selectedMonth = date.getMonth();
-    }
+    },
+
+    getCategories() {
+      const self = this;
+      this.axios.get(`${http}/categories`)
+      .then((response) => {
+        if (response.data.categories) {
+          self.categories = response.data.categories;
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+    },
   }
 }
 </script>

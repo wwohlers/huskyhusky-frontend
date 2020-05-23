@@ -58,6 +58,11 @@ const routes = [
     component: () => import('../views/Applications.vue')
   },
   {
+    path: '/author/:id',
+    name: 'author',
+    component: () => import('../views/Author.vue')
+  },
+  {
     path: '*',
     name: '404',
     component: () => import('../views/404.vue')

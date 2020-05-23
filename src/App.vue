@@ -115,6 +115,10 @@ ul {
   list-style: none;
 }
 
+a {
+  color: black;
+}
+
 /***** FORMS, INPUTS, BUTTONS *******/
 form {
   width: 60%;
@@ -133,6 +137,18 @@ form {
 
 .center > .form-item > input,textarea {
   margin: auto;
+}
+
+.success {
+  padding: 1em;
+  background-color: #cfffdb;
+  border: 1px solid green;
+}
+
+.error {
+  padding: 1em;
+  background-color: #ffcfcf;
+  border: 1px solid red;
 }
 
 .form-item label {

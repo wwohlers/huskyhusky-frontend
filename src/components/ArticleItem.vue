@@ -5,6 +5,7 @@
     </div>
     <div class="item-child" @click="go">
       <span class="title">{{ article.title }}</span>
+      <p class="details">{{ date }} &bullet; {{ article.category }}</p>
       <p class="brief">{{ article.brief }}</p>
     </div>
     <div class="item-child" v-if="editRights">
@@ -44,6 +45,10 @@ export default {
 
     suggestPublication() {
       return this.article.requested && !this.article.public;
+    },
+
+    date() {
+      return this.moment(this.article.created_at).fromNow();
     }
   },
   methods: {
@@ -77,6 +82,11 @@ img {
 
 .title {
   font-size: 24px;
+}
+
+.details {
+  color: #444444;
+  font-size: 14px;
 }
 
 .brief {

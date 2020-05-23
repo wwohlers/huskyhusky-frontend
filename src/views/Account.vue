@@ -2,6 +2,7 @@
   <div v-if="user">
     <h1>Account</h1>
     <p class="error" v-if="errorMessage">{{ errorMessage }}</p>
+    <p class="success" v-if="successMessage">{{ successMessage }}</p>
     <div>
       <h2>Email</h2>
       <input type="text" v-model="user.email" v-if="onEmail" />
@@ -24,6 +25,13 @@
         </div>
       </form>
       <button @click="changePassword">Change Password</button>
+    </div>
+    <br><br>
+    <div>
+      <h2>Edit Bio</h2>
+      <input type="text" v-model="bio" />
+      <br>
+      <button @click="setBio">Done</button>
     </div>
     <br><br>
     <div>
@@ -52,9 +60,11 @@ export default {
       onEmail: false,
       onPassword: false,
       errorMessage: '',
+      successMessage: '',
       currentPass: '',
       password: '',
-      password2: ''
+      password2: '',
+      bio: '',
     }
   },
   mounted() {
@@ -76,6 +86,7 @@ export default {
   methods: {
     init() {
       this.email = this.user.email;
+      this.bio = this.user.bio;
     },
 
     async changeEmail() {
@@ -132,6 +143,42 @@ export default {
       }
     },
 
+    async setBio() {
+      let self = this;
+      const url = http + "/users/bio";
+      const body = {
+        bio: this.bio,
+      }
+      this.axios.put(url, body)
+      .then((response) => {
+        if (response.status === 200) {
+          self.success("Bio updated");
+        } else {
+          self.error("An error occurred");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        self.error("An error occurred");
+      })
+    },
+
+    success(message) {
+      this.successMessage = message;
+      const self = this;
+      setTimeout(() => {
+        self.successMessage = '';
+      }, 5000);
+    },
+
+    error(message) {
+      this.errorMessage = message;
+      const self = this;
+      setTimeout(() => {
+        self.errorMessage = '';
+      }, 5000);
+    },
+
     signout() {
       this.$cookie.delete('id');
       this.$cookie.delete('token');
@@ -142,7 +189,7 @@ export default {
     async validateEmail(email) {
       var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       if (!re.test(String(email).toLowerCase())) {
-        this.errorMessage = "Email is not in the correct format";
+        this.error("Email is not in the correct format");
         return false;
       }
 
@@ -153,7 +200,7 @@ export default {
       };
       const res = await this.axios.post(url, body);
       if (res.data !== true) {
-        this.errorMessage = "Email is not unique";
+        this.error("This email is already in use");
         return false;
       }
 
@@ -162,11 +209,11 @@ export default {
 
     async validatePassword(curr, new1, new2) {
       if (new1 != new2) {
-        this.errorMessage = "Passwords do not match";
+        this.error("Passwords do not match");
         return false;
       }
       if (new1.length < 8) {
-        this.errorMessage = "Passwords must be at least 8 characters long";
+        this.error("Passwords must be at least 8 characters long");
         return false;
       }
       
@@ -179,7 +226,7 @@ export default {
       const res = await this.axios.post(url, body);
       if (!res.data.user) {
         console.log(res.data);
-        this.errorMessage = "Incorrect current password";
+        this.error("Incorrect current password");
         return false;
       }
       return true;
@@ -187,3 +234,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+textarea {
+  margin: 0;
+}
+</style>

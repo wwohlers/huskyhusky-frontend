@@ -2,11 +2,14 @@
   <div @click="go(article)">
     <img class="thumbnail" :src="article.image" />
     <p class="title">{{ article.title }}</p>
+    <p class="details">{{ date }} &bullet; {{ article.category }}</p>
     <p class="brief">{{ article.brief }}</p>
   </div>
 </template>
 
 <script>
+import Moment from 'moment';
+
 export default {
   name: 'ArticleClip',
   props: {
@@ -16,6 +19,11 @@ export default {
     go(article) {
       const artName = article.name;
       this.$router.push({ name: 'article', params: { name: artName }});
+    }
+  },
+  computed: {
+    date() {
+      return this.moment(this.article.created_at).fromNow();
     }
   }
 }
@@ -35,6 +43,11 @@ img {
   margin-top: 10px;
   margin-bottom: 0;
   text-transform: uppercase;
+}
+
+.details {
+  color: #444444;
+  font-size: 14px;
 }
 
 .brief {

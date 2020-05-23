@@ -7,11 +7,11 @@
       <div class="article-container">
         <div class="article">
       <p class="article-title">{{ article.title }}</p>
-          <p>{{ date }} &bullet; By {{ authorName }}</p>
+          <p>{{ date }} &bullet; {{ article.category }} &bullet; By <router-link :to="{ name: 'author', params: { id: article.author } }">{{ authorName }}</router-link></p>
           <img :src="article.image" />
           <br>
           <br>
-          <p><i>{{ article.brief }}</i></p>
+          <p class="attr"><i>{{ article.attr }}</i></p>
           <br><br>
           <div class="article-content" v-html="article.text"></div>
         </div>
@@ -159,6 +159,12 @@ export default {
 
 p {
   font-size: 20px;
+}
+
+.attr {
+  margin: 0;
+  font-size: 14px;
+  color: #444444;
 }
 
 .article img {

@@ -13,12 +13,30 @@
         <input type="text" id="title" v-model="title" @input="generateName"/> 
       </div>
       <div class="form-item">
+        <label for="category">Category</label>
+        <input type="text" id="category" v-model="category" />
+        <br>
+        <button @click="toggleCategories" class="small">{{ showCategoryText }}</button>
+        <p v-if="viewCategories">
+          Current categories:
+          <ul>
+            <li v-for="category in categories" :key="category">
+              {{ category }}
+            </li>
+          </ul>
+        </p>
+      </div>
+      <div class="form-item">
         <label for="brief">Brief</label>
         <input type="text" id="brief" v-model="brief" />
       </div>
       <div class="form-item">
         <label for="image">Image</label>
         <input type="text" id="image" v-model="image" />
+      </div>
+      <div class="form-item">
+        <label for="attr">Image Attribute</label>
+        <input type="text" id="attr" v-model="attr" />
       </div>
       <div class="form-item">
         <quill v-model="content" output="html"></quill>
@@ -64,11 +82,15 @@ export default {
       name: '',
       title: '',
       brief: '',
+      category: '',
       image: '',
+      attr: '',
       content: 'Start writing here...',
       isPublic: false,
       requested: false,
-      errorMessage: ''
+      errorMessage: '',
+      viewCategories: false,
+      categories: []
     }
   },
   methods: {
@@ -84,10 +106,13 @@ export default {
             self.name = article.name;
             self.title = article.title;
             self.brief = article.brief;
+            self.category = article.category;
             self.image = article.image;
+            self.attr = article.attr;
             self.isPublic = article.public;
             self.requested = article.requested;
             self.setInnerHtml(article.text);
+            self.getCategories();
           } else {
             self.$router.push({name: 'archive'});
           }
@@ -101,6 +126,19 @@ export default {
       }
     },
 
+    getCategories() {
+      const self = this;
+      this.axios.get(`${http}/categories`)
+      .then((response) => {
+        if (response.data.categories) {
+          self.categories = response.data.categories;
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+    },
+
     save() {
       if (this.validate()) {
         const url = http + "/articles/" + this.$route.params.id;
@@ -108,7 +146,9 @@ export default {
           name: this.name,
           title: this.title,
           brief: this.brief,
+          category: this.category,
           image: this.image,
+          attr: this.attr,
           text: this.content,
           public: this.isPublic,
           requested: this.requested
@@ -125,6 +165,10 @@ export default {
           console.log("Failed with error: " + error);
         })
       }
+    },
+
+    toggleCategories() {
+      this.viewCategories = !this.viewCategories;
     },
 
     setInnerHtml(html) {
@@ -181,6 +225,15 @@ export default {
       }
 
       return true;
+    }
+  },
+  computed: {
+    showCategoryText() {
+      if (this.viewCategories) {
+        return "Hide Categories";
+      } else {
+        return "Show Categories";
+      }
     }
   },
   mounted() {

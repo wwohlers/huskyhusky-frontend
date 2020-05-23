@@ -1,7 +1,14 @@
 <template>
   <div class="archive-list">
-    <ArchiveFilter @filter="filter" @search="search" @clear="clear" class="filter"></ArchiveFilter>
-    <ArticleItem :user="user" v-for="article in articles" :key="article.id" :article="article"></ArticleItem>
+    <ArchiveFilter @filter="filter" @search="search" @category="category" @clear="clear" class="filter"></ArchiveFilter>
+    <ArticleItem :user="user" v-for="article in getPage" :key="article.id" :article="article"></ArticleItem>
+    <div class="page">
+      <button @click="prev">Prev</button>
+      &nbsp;
+      Page <strong>{{ page + 1 }}</strong> of <strong>{{ maxPages + 1 }}</strong>
+      &nbsp;
+      <button @click="next">Next</button>
+    </div>
   </div>
 </template>
 
@@ -21,16 +28,33 @@ export default {
   },
   data() {
     return {
-      articles: []
+      articles: [],
+      page: 0,
     }
   },
   mounted() {
     this.loadArticles();
   },
+  computed: {
+    getPage() {
+      let min = 10 * this.page;
+      let max = 10 * (this.page + 1);
+      if (max >= this.articles.length) {
+        max = this.articles.length - 1;
+      }
+      return this.articles.slice(min, max);      
+    },
+
+    maxPages() {
+      return Math.floor(this.articles.length / 10);
+    },
+  },
   methods: {
     loadArticles() {
+      this.page = 0;
       const self = this;
       const url = http + '/articles';
+      console.log(url);
       this.axios.get(url)
       .then((response) => {
         self.articles = response.data.articles;
@@ -38,6 +62,7 @@ export default {
     },
 
     filter(args) {
+      this.page = 0;
       const self = this;
       const url = http + "/filter";
       this.axios.post(url, args)
@@ -52,7 +77,24 @@ export default {
       })
     },
 
+    category(cat) {
+      this.page = 0;
+      const self = this;
+      const url = http + "/category";
+      this.axios.post(url, { category: cat })
+      .then((response) => {
+        const articles = response.data.articles;
+        if (articles) {
+          self.articles = articles;
+        }
+      })
+      .catch((error) => {
+        console.log("Server error: " + error);
+      })
+    },
+
     search(query) {
+      this.page = 0;
       const self = this;
       const url = http + "/search";
       this.axios.post(url, {query: query})
@@ -67,6 +109,18 @@ export default {
       })
     },
 
+    prev() {
+      if (this.page != 0) {
+        this.page--;
+      }
+    },
+
+    next() {
+      if (this.page < this.maxPages) {
+        this.page++;
+      }
+    },
+
     clear() {
       this.loadArticles();
     }
@@ -76,10 +130,14 @@ export default {
 
 <style scoped>
 .archive-list {
-  margin: 30px 0 30px 0;
+  margin: 0 0 30px 0;
 }
 
 .filter {
   margin: 10px 0 20px 0;
+}
+
+.page {
+  text-align: center;
 }
 </style>
