@@ -68,7 +68,7 @@ a {
   display: block;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 800px) {
   .footer {
     padding: 20px 0 30px 0;
   }

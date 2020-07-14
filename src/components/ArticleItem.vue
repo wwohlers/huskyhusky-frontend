@@ -5,7 +5,7 @@
     </div>
     <div class="item-child" @click="go">
       <span class="title">{{ article.title }}</span>
-      <p class="date">{{ date }}</p>
+      <p class="details">{{ date }} &bullet; {{ article.category }}</p>
       <p class="brief">{{ article.brief }}</p>
     </div>
     <div class="item-child" v-if="editRights">
@@ -49,6 +49,10 @@ export default {
 
     suggestPublication() {
       return this.article.requested && !this.article.public;
+    },
+
+    date() {
+      return this.moment(this.article.created_at).fromNow();
     }
   },
   methods: {
@@ -84,8 +88,9 @@ img {
   font-size: 24px;
 }
 
-.date {
-  color: #666666;
+.details {
+  color: #444444;
+  font-size: 14px;
 }
 
 .brief {
@@ -96,7 +101,7 @@ img {
   cursor: pointer;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 800px) {
   img {
     width: 100%;
   }

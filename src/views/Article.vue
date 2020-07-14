@@ -11,11 +11,12 @@
       <div class="article-container">
         <div class="article">
           <p class="article-title">{{ article.title }}</p>
-          <p class="article-sub">{{ date }} &bullet; By {{ authorName }}</p>
+          <p>{{ date }} &bullet; {{ article.category }} &bullet; By <router-link :to="{ name: 'author', params: { id: article.author } }">{{ authorName }}</router-link></p>
           <img :src="article.image" />
           <br>
-          <p><i>{{ article.brief }}</i></p>
           <br>
+          <p class="attr"><i>{{ article.attr }}</i></p>
+          <br><br>
           <div class="article-content" v-html="article.text"></div>
         </div>
         <div class="sidebar" v-if="article">
@@ -64,7 +65,6 @@ export default {
     }
   },
   beforeRouteEnter (to, from, next) {
-    console.log("yes");
     const name = to.params.name;
     const url = http + "/articles/" + name;
     Axios.get(url)
@@ -153,9 +153,11 @@ export default {
 <style scoped>
 .article-container {
   margin: 0 0 30px 0;
-  display: grid;
-  grid-template-columns: 4fr 1fr;
-  grid-column-gap: 1em;
+  display: flex;
+}
+
+.article {
+  margin-right: 5%;
 }
 
 .article-title {
@@ -179,14 +181,30 @@ p {
   font-size: 20px;
 }
 
+.attr {
+  margin: 0;
+  font-size: 14px;
+  color: #444444;
+}
+
 .article img {
   width: 100%;
   object-fit: cover;
 }
 
 .sidebar {
+  width: 20%;
   padding: 2em;
   background-color: #EEEEEE;
+  height: fit-content;
+}
+
+.subscribe {
+  width: initial;
+}
+
+.subscribe input {
+  width: auto;
 }
 
 .title {
@@ -195,7 +213,7 @@ p {
   text-transform: uppercase;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 800px) {
   .article-container {
     grid-template-columns: 1fr;
     grid-row-gap: 1em;

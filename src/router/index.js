@@ -68,6 +68,11 @@ const routes = [
     props: true
   },
   {
+    path: '/author/:id',
+    name: 'author',
+    component: () => import('../views/Author.vue')
+  },
+  {
     path: '*',
     name: '404',
     component: () => import('../views/404.vue')

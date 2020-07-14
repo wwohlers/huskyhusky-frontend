@@ -156,6 +156,18 @@ form {
   margin: auto;
 }
 
+.success {
+  padding: 1em;
+  background-color: #cfffdb;
+  border: 1px solid green;
+}
+
+.error {
+  padding: 1em;
+  background-color: #ffcfcf;
+  border: 1px solid red;
+}
+
 .form-item label {
   cursor: pointer;
   display: block;
@@ -202,7 +214,7 @@ button {
   padding: 6px 9px 6px 9px;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 800px) {
   #wrapper {
     padding-bottom: 40em;
   }
