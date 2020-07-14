@@ -81,6 +81,7 @@ export default {
   text-transform: uppercase;
   padding: 10px 10px 10px 10px;
   margin: 0 20px 0 20px;
+  border-bottom: 2px solid white;
 }
 
 .link:hover {
@@ -102,7 +103,7 @@ export default {
   cursor: pointer;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 800px) {
   .hamburger {
     display: inline-block;
     position: absolute;

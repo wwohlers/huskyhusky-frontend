@@ -51,7 +51,8 @@ p {
 }
 
 .subscribe {
-  width: 15em;
+  width: 100%;
+  max-width: 200px;
   font-size: 16px;
 }
 </style>

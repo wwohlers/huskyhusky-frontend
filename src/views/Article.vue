@@ -153,9 +153,11 @@ export default {
 <style scoped>
 .article-container {
   margin: 0 0 30px 0;
-  display: grid;
-  grid-template-columns: 4fr 1fr;
-  grid-column-gap: 1em;
+  display: flex;
+}
+
+.article {
+  margin-right: 5%;
 }
 
 .article-title {
@@ -191,8 +193,18 @@ p {
 }
 
 .sidebar {
+  width: 20%;
   padding: 2em;
   background-color: #EEEEEE;
+  height: fit-content;
+}
+
+.subscribe {
+  width: initial;
+}
+
+.subscribe input {
+  width: auto;
 }
 
 .title {
@@ -201,7 +213,7 @@ p {
   text-transform: uppercase;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 800px) {
   .article-container {
     grid-template-columns: 1fr;
     grid-row-gap: 1em;

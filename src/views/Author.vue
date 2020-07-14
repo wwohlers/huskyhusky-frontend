@@ -26,6 +26,7 @@ export default {
     const id = this.$route.params.id;
     this.loading = true;
     await this.getAuthor(id);
+    this.$title = this.author.name;
   },
   methods: {
     async getAuthor(id) {

@@ -73,7 +73,7 @@ div {
   font-size: 18px;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 800px) {
   .title {
     font-size: 24px;
     margin-top: 6px;

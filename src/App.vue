@@ -214,7 +214,7 @@ button {
   padding: 6px 9px 6px 9px;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 800px) {
   #wrapper {
     padding-bottom: 40em;
   }

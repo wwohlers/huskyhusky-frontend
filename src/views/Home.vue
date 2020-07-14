@@ -67,7 +67,7 @@ export default {
   grid-row: 2 / 3;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 800px) {
   .articles {
     display: flex;
     flex-direction: column;
