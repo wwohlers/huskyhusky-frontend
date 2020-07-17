@@ -39,10 +39,13 @@
         <input type="text" id="attr" v-model="attr" />
       </div>
       <div class="form-item">
-        <p>
+        <!--<p>
           <span style="color: red">The old link formatting has been deprecated in favor of HTML markup.</span>
           Click <a href="http://www.simplehtmlguide.com/cheatsheet.php">here</a> for a reference on HTML (all safe tags are allowed).
           The old formatting will still work for the sake of backwards compatibility.
+        </p>-->
+        <p>
+          %%% [link url] ||| [text] ###
         </p>
         <quill v-model="content" output="html"></quill>
       </div>
@@ -218,6 +221,11 @@ export default {
 
     validate() {
       const self = this;
+
+      if (this.tags.length === 0) {
+        this.errorMessage = "Must have at least one tag";
+        return false;
+      }
 
       // Validate name, check characters and uniqueness
       const valid = ['a','b','c','d','e','f','g','h','i','j','k','l',
