@@ -1,8 +1,8 @@
 <template>
   <div>
-    <select v-model="cat" @change="category()">
-      <option disabled value="">Select a category...</option>
-      <option v-for="_cat in categories" :value="_cat" :key="_cat">{{ _cat }}</option>
+    <select v-model="tag" @change="setTag()">
+      <option disabled value="">Select a tag...</option>
+      <option v-for="_tag in tags" :value="_tag" :key="_tag">{{ _tag }}</option>
     </select>
     <span> &mdash; OR &mdash; </span>
     <select v-model="selectedMonth" @change="filter()">
@@ -32,7 +32,8 @@ export default {
       selectedMonth: 0,
       query: '',
       categories: [],
-      cat: '',
+      tag: '',
+      tags: [],
     }
   },
   mounted() {
@@ -44,7 +45,7 @@ export default {
     for (var i = start; i <= current; i++) {
       this.years.push(i);
     }
-    this.getCategories();
+    this.getTags();
     this.filter();
   },
   computed: {
@@ -69,9 +70,9 @@ export default {
       this.$emit('search', query);
     },
 
-    category() {
-      const cat = this.cat;
-      this.$emit('category', cat);
+    setTag() {
+      const tag = this.tag;
+      this.$emit('tag', tag);
     },
 
     clear() {
@@ -83,17 +84,17 @@ export default {
       this.selectedMonth = date.getMonth();
     },
 
-    getCategories() {
+    getTags() {
       const self = this;
-      this.axios.get(`${http}/categories`)
-      .then((response) => {
-        if (response.data.categories) {
-          self.categories = response.data.categories;
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      })
+      this.axios.get(`${http}/tags`)
+        .then((response) => {
+          if (response.data.tags) {
+            self.tags = response.data.tags;
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        })
     },
   }
 }

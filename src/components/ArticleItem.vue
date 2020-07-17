@@ -1,11 +1,11 @@
 <template>
-  <div class="article-item">
+  <div class="article-item" v-if="article.title">
     <div class="item-child">
       <img @click="go" :src="article.image" />
     </div>
     <div class="item-child" @click="go">
       <span class="title">{{ article.title }}</span>
-      <p class="details">{{ date }} &bullet; {{ article.category }}</p>
+      <p class="details">{{ date }} &bullet; {{ article.tags[0] || 'Satire' }}</p>
       <p class="brief">{{ article.brief }}</p>
     </div>
     <div class="item-child" v-if="editRights">

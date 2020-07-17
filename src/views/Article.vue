@@ -11,7 +11,7 @@
       <div class="article-container">
         <div class="article">
           <p class="article-title">{{ article.title }}</p>
-          <p>{{ date }} &bullet; {{ article.category }} &bullet; By <router-link :to="{ name: 'author', params: { id: article.author } }">{{ authorName }}</router-link></p>
+          <p>{{ date }} &bullet; {{ article.tags[0] || 'Satire' }} &bullet; By <router-link :to="{ name: 'author', params: { id: article.author } }">{{ authorName }}</router-link></p>
           <img :src="article.image" />
           <br>
           <br>
@@ -20,28 +20,26 @@
           <div class="article-content" v-html="article.text"></div>
         </div>
         <div class="sidebar" v-if="article">
-          <Subscribe></Subscribe>
-          <br/><hr/>
           <div class="share">
             <p class="title">Share</p>
             <Share :url="articleUrl"></Share>
           </div>
         </div>
       </div>
+      <Comments :article="article" :user="user"></Comments>
     </div>
   </div>
 </template>
 
 <script>
+let sanitizeHtml = require('sanitize-html');
 import Subscribe from '../components/Subscribe';
 import Axios from 'axios';
 import Share from '../components/Share';
+import Comments from '../components/Comments';
 import {http} from '../../global';
 
 export default {
-  metaInfo: {
-    title: 'Article'
-  },
   data() {
     return {
       article: null,
@@ -49,9 +47,19 @@ export default {
       authorName: ''
     }
   },
+  props: {
+    user: Object,
+  },
   components: {
     Subscribe,
-    Share
+    Share,
+    Comments
+  },
+  metaInfo() {
+    const article = this.article;
+    return {
+      titleTemplate: chunk => article.title
+    }
   },
   computed: {
     date() {
@@ -81,7 +89,6 @@ export default {
     })
   },
   beforeRouteUpdate (to, from, next) {
-    console.log("yes");
     const self = this;
     const name = to.params.name;
     const url = http + "/articles/" + name;
@@ -98,26 +105,23 @@ export default {
   methods: {
     load(article) {
       this.notFound = false;
-      if (this.safe(article.text)) {
-        this.article = article;
-        this.$title = article.title;
+      article.text = this.sanitize(article.text);
+      this.article = article;
 
-        this.$ga.page({
-          page: `/${article.name}`,
-          title: article.title,
-          location: window.location.href
-        });
-      }
+      this.$ga.page({
+        page: `/${article.name}`,
+        title: article.title,
+        location: window.location.href
+      });
     },
 
     fail() {
       this.notFound = true;
     },
 
-    safe(html) {
-      // TODO
-      // returns true only if the raw html is safe to insert
-      return true;
+    sanitize(dirty) {
+      let clean = sanitizeHtml(dirty);
+      return clean;
     },
 
     getAuthorName() {
@@ -151,6 +155,10 @@ export default {
 </script>
 
 <style scoped>
+* {
+  font-family: 'Open Sans';
+}
+
 .article-container {
   margin: 0 0 30px 0;
   display: flex;
@@ -161,7 +169,7 @@ export default {
 }
 
 .article-title {
-  font-family: "Lora";
+  font-family: "Open Sans";
   font-size: 48px;
   margin: 0 0 20px 0;
   cursor: pointer;
@@ -195,8 +203,13 @@ p {
 .sidebar {
   width: 20%;
   padding: 2em;
-  background-color: #EEEEEE;
+  box-shadow: 0 0 8px #DDD;
   height: fit-content;
+}
+
+.share > .title {
+  margin-top: 0;
+  text-align: center;
 }
 
 .subscribe {
@@ -215,8 +228,12 @@ p {
 
 @media only screen and (max-width: 800px) {
   .article-container {
-    grid-template-columns: 1fr;
-    grid-row-gap: 1em;
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .article-title {

@@ -1,6 +1,6 @@
 <template>
   <div class="archive-list">
-    <ArchiveFilter @filter="filter" @search="search" @category="category" @clear="clear" class="filter"></ArchiveFilter>
+    <ArchiveFilter @filter="filter" @search="search" @tag="tag" @clear="clear" class="filter"></ArchiveFilter>
     <ArticleItem :user="user" v-for="article in getPage" :key="article.id" :article="article"></ArticleItem>
     <p v-if="noArticles">No articles match these criteria.</p>
     <div class="page">
@@ -56,7 +56,6 @@ export default {
       this.page = 0;
       const self = this;
       const url = http + '/articles';
-      console.log(url);
       this.axios.get(url)
       .then((response) => {
         const articles = response.data.articles;
@@ -86,20 +85,20 @@ export default {
       })
     },
 
-    category(cat) {
+    tag(tag) {
       this.page = 0;
       const self = this;
-      const url = http + "/category";
-      this.axios.post(url, { category: cat })
-      .then((response) => {
-        const articles = response.data.articles;
-        if (articles) {
-          self.articles = articles;
-        }
-      })
-      .catch((error) => {
-        console.log("Server error: " + error);
-      })
+      const url = http + `/tag/${tag}`;
+      this.axios.get(url)
+        .then((response) => {
+          const articles = response.data.articles;
+          if (articles) {
+            self.articles = articles;
+          }
+        })
+        .catch((error) => {
+          console.log("Server error: " + error);
+        })
     },
 
     search(query) {

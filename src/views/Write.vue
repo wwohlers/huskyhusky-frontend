@@ -13,18 +13,18 @@
         <input type="text" id="title" class="long" v-model="title" @input="generateName"/> 
       </div>
       <div class="form-item">
-        <label for="category">Category</label>
-        <input type="text" id="category" v-model="category" />
-        <br>
-        <button @click="toggleCategories" class="small">{{ showCategoryText }}</button>
-        <p v-if="viewCategories">
-          Current categories:
-          <ul>
-            <li v-for="category in categories" :key="category">
-              {{ category }}
-            </li>
-          </ul>
-        </p>
+        <label for="tags">Tags</label>
+        <autocomplete
+          id="tags"
+          :source="tagsWithoutActive"
+          @selected="addTag"
+          @nothingSelected="createTag">
+        </autocomplete>
+        <div class="tags">
+          <div class="tag" v-for="tag of tags" :key="tag" @click="removeTag(tag)">
+            {{ tag }}
+          </div>
+        </div>
       </div>
       <div class="form-item">
         <label for="brief">Brief</label>
@@ -39,7 +39,11 @@
         <input type="text" id="attr" v-model="attr" />
       </div>
       <div class="form-item">
-        <p>Link formatting: %%%https://link.com|||Link Text###</p>
+        <p>
+          <span style="color: red">The old link formatting has been deprecated in favor of HTML markup.</span>
+          Click <a href="http://www.simplehtmlguide.com/cheatsheet.php">here</a> for a reference on HTML (all safe tags are allowed).
+          The old formatting will still work for the sake of backwards compatibility.
+        </p>
         <quill v-model="content" output="html"></quill>
       </div>
       <div class="form-item">
@@ -68,11 +72,15 @@
 
 <script>
 import ArchiveList from '../components/ArchiveList';
+import Autocomplete from 'vuejs-auto-complete';
 import {http} from '../../global';
 
 export default {
   metaInfo: {
     title: 'Write'
+  },
+  components: {
+    Autocomplete,
   },
   name: 'Write',
   props: {
@@ -95,7 +103,8 @@ export default {
       requested: false,
       errorMessage: '',
       viewCategories: false,
-      categories: []
+      tags: [],
+      tagList: []
     }
   },
   methods: {
@@ -111,13 +120,13 @@ export default {
             self.name = article.name;
             self.title = article.title;
             self.brief = article.brief;
-            self.category = article.category;
+            self.tags = article.tags;
             self.image = article.image;
             self.attr = article.attr;
             self.isPublic = article.public;
             self.requested = article.requested;
             self.setInnerHtml(article.text);
-            self.getCategories();
+            self.getTags();
           } else {
             self.$router.push({name: 'archive'});
           }
@@ -131,17 +140,31 @@ export default {
       }
     },
 
-    getCategories() {
+    getTags() {
       const self = this;
-      this.axios.get(`${http}/categories`)
+      this.axios.get(`${http}/tags`)
       .then((response) => {
-        if (response.data.categories) {
-          self.categories = response.data.categories;
+        if (response.data.tags) {
+          self.tagList = response.data.tags.map(tag => {
+            return { name: tag }
+          });
         }
       })
       .catch((error) => {
         console.log(error);
       })
+    },
+
+    addTag(tag) {
+      if (!this.tags.includes(tag.display)) this.tags.push(tag.display);
+    },
+
+    createTag($event) {
+      if (!this.tags.includes($event)) this.tags.push($event);
+    },
+
+    removeTag(tag) {
+      this.tags = this.tags.filter(t => t !== tag);
     },
 
     save() {
@@ -151,7 +174,7 @@ export default {
           name: this.name,
           title: this.title,
           brief: this.brief,
-          category: this.category,
+          tags: this.tags,
           image: this.image,
           attr: this.attr,
           text: this.content,
@@ -233,6 +256,12 @@ export default {
       } else {
         return "Show Categories";
       }
+    },
+
+    tagsWithoutActive() {
+      return this.tagList.filter(tag => {
+        return !this.tags.includes(tag.name);
+      })
     }
   },
   mounted() {

@@ -76,6 +76,7 @@ export default {
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400;1,700&family=Raleway:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 html, body {
   margin: 0;
@@ -212,6 +213,25 @@ button {
 .small {
   font-size: 14px;
   padding: 6px 9px 6px 9px;
+}
+
+.tags {
+  padding-top: 1em;
+  text-align: left;
+}
+
+.tag {
+  display: inline-block;
+  background: #CCC;
+  padding: 0.25em 0.5em;
+  margin-right: 1em;
+  border-radius: 2px;
+  cursor: pointer;
+  width: fit-content;
+}
+
+.tag:hover {
+  background: #ff9e9e;
 }
 
 @media only screen and (max-width: 800px) {

@@ -17,16 +17,15 @@ export default {
   },
   data() {
     return {
-      author: Object,
-      articles: [Object],
-      loading: Boolean,
+      author: {},
+      articles: [],
+      loading: false,
     }
   },
   async created() {
     const id = this.$route.params.id;
     this.loading = true;
     await this.getAuthor(id);
-    this.$title = this.author.name;
   },
   methods: {
     async getAuthor(id) {
@@ -36,10 +35,15 @@ export default {
         if (response.data.name) {
           const author = response.data;
           self.author = author;
+          self.$title = author.name;
           
           this.axios.get(`${http}/users/${author.id}/articles`)
           .then((response) => {
             if (response.data.articles) {
+              let articles = response.data.articles;
+              articles = articles.sort((a, b) => {
+                return new Date(b.created_at) - new Date(a.created_at);
+              })
               self.articles = response.data.articles;
             } else {
               self.$router.push({name: 'archive'});

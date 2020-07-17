@@ -10,7 +10,6 @@ import moment from 'moment';
 import VuePageTitle from 'vue-page-title';
 import VueAnalytics from 'vue-analytics';
 
-
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
 Vue.use(VueCookie);

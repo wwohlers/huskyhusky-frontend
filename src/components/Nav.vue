@@ -67,7 +67,7 @@ export default {
 .logo {
   display: block;
   margin: auto;
-  width: 15em;
+  width: 10em;
 }
 
 .links {
