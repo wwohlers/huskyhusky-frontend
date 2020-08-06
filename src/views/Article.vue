@@ -11,7 +11,9 @@
       <div class="article-container">
         <div class="article">
           <p class="article-title">{{ article.title }}</p>
-          <p>{{ date }} &bullet; {{ article.tags[0] || 'Satire' }} &bullet; By <router-link :to="{ name: 'author', params: { id: article.author } }">{{ authorName }}</router-link></p>
+          <p>{{ date }} 
+            <span v-for="tag of article.tags" :key="tag">&bullet; {{ tag }}</span> 
+            &bullet; By <router-link :to="{ name: 'author', params: { id: article.author } }">{{ authorName }}</router-link></p>
           <img :src="article.image" />
           <br>
           <br>

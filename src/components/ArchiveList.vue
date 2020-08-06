@@ -1,7 +1,7 @@
 <template>
   <div class="archive-list">
     <ArchiveFilter @filter="filter" @search="search" @tag="tag" @clear="clear" class="filter"></ArchiveFilter>
-    <ArticleItem :user="user" v-for="article in getPage" :key="article.id" :article="article"></ArticleItem>
+    <ArticleItem :user="user" v-for="article in getPage" :key="article.id" :article="article" @deleted="delArticle(article._id)"></ArticleItem>
     <p v-if="noArticles">No articles match these criteria.</p>
     <div class="page">
       <button @click="prev">Prev</button>
@@ -133,6 +133,10 @@ export default {
 
     clear() {
       this.loadArticles();
+    },
+
+    delArticle(id) {
+      this.articles = this.articles.filter(a => a._id !== id);
     }
   },
   watch: {

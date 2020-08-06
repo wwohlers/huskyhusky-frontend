@@ -1,5 +1,5 @@
 <template>
-  <div class="article-item" v-if="article.title">
+  <div class="article-item" v-if="article">
     <div class="item-child">
       <img @click="go" :src="article.image" />
     </div>
@@ -10,12 +10,15 @@
     </div>
     <div class="item-child" v-if="editRights">
       <button @click="write">Edit</button>
+      <button @click="del">Delete</button>
       <span v-if="suggestPublication">Publication requested</span>
     </div>
   </div>
 </template>
 
 <script>
+import { http } from '../../global';
+
 export default {
   name: 'ArticleItem',
   props: {
@@ -62,6 +65,19 @@ export default {
 
     write() {
       this.$router.push({name: 'write', params: { id: this.article._id }});
+    },
+
+    del() {
+      this.axios.delete(`${http}/articles/${this.article._id}`)
+      .then(response => {
+        if (response.status == 200) {
+          this.$emit('deleted');
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        alert('Failed to delete article');
+      })
     }
   }
 }
