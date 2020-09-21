@@ -1,23 +1,23 @@
 <template>
-  <div class="article-item" v-if="article">
-    <div class="item-child">
-      <img @click="go" :src="article.image" />
-    </div>
-    <div class="item-child" @click="go">
-      <span class="title">{{ article.title }}</span>
-      <p class="details">{{ date }} &bullet; {{ article.tags[0] || 'Satire' }}</p>
-      <p class="brief">{{ article.brief }}</p>
-    </div>
-    <div class="item-child" v-if="editRights">
-      <button @click="write">Edit</button>
-      <button @click="del">Delete</button>
-      <span v-if="suggestPublication">Publication requested</span>
-    </div>
-  </div>
+    <a v-if="article" class="article-item" style="text-decoration:none" :href="articleLink">
+        <div class="item-child">
+          <img :src="article.image" />
+        </div>
+        <div class="item-child">
+          <span class="title">{{ article.title }}</span>
+          <p class="details">{{ date }} &bullet; {{ article.tags[0] || 'Satire' }}</p>
+          <p class="brief">{{ article.brief }}</p>
+        </div>
+        <div class="item-child" v-if="editRights">
+          <button @click="write">Edit</button>
+          <button @click="del">Delete</button>
+          <span v-if="suggestPublication">Publication requested</span>
+        </div>
+    </a>
 </template>
 
 <script>
-import { http } from '../../global';
+import { http, front } from '../../global';
 
 export default {
   name: 'ArticleItem',
@@ -27,7 +27,7 @@ export default {
   },
   computed: {
     articleLink() {
-      return "/article/" + this.article.name;
+      return front + "/article/" + this.article.name;
     },
 
     editRights() {
@@ -59,10 +59,6 @@ export default {
     }
   },
   methods: {
-    go() {
-      this.$router.push({name: 'article', params: { name: this.article.name }});
-    },
-
     write() {
       this.$router.push({name: 'write', params: { id: this.article._id }});
     },
