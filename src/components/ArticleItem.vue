@@ -1,19 +1,23 @@
 <template>
-    <a v-if="article" class="article-item" style="text-decoration:none" :href="articleLink">
+    <div v-if="article" class="article-item">
         <div class="item-child">
-          <img :src="article.image" />
+          <a style="text-decoration:none" :href="articleLink">
+              <img :src="article.image" />
+          </a>
         </div>
         <div class="item-child">
-          <span class="title">{{ article.title }}</span>
-          <p class="details">{{ date }} &bullet; {{ article.tags[0] || 'Satire' }}</p>
-          <p class="brief">{{ article.brief }}</p>
+          <a style="text-decoration:none" :href="articleLink">
+            <span class="title">{{ article.title }}</span>
+            <p class="details">{{ date }} &bullet; {{ article.tags[0] || 'Satire' }}</p>
+            <p class="brief">{{ article.brief }}</p>
+          </a>
         </div>
-        <div class="item-child" v-if="editRights">
-          <button @click="write">Edit</button>
-          <button @click="del">Delete</button>
-          <span v-if="suggestPublication">Publication requested</span>
-        </div>
-    </a>
+      <div class="item-child" v-if="editRights">
+        <button @click="write">Edit</button>
+        <button @click="del">Delete</button>
+        <span v-if="suggestPublication">Publication requested</span>
+      </div>
+    </div>
 </template>
 
 <script>

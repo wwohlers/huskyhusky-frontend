@@ -51,6 +51,8 @@ export default {
   },
   props: {
     user: Object,
+    name: String,
+    loadingAuth: Boolean
   },
   components: {
     Subscribe,
@@ -60,7 +62,7 @@ export default {
   metaInfo() {
     const article = this.article;
     return {
-      titleTemplate: chunk => article.title
+      titleTemplate: chunk => article.title || ""
     }
   },
   computed: {
@@ -74,47 +76,33 @@ export default {
       return "http://thehuskyhusky.com/article/" + this.article.name;
     }
   },
-  beforeRouteEnter (to, from, next) {
-    const name = to.params.name;
-    const url = http + "/articles/" + name;
-    Axios.get(url)
-    .then((response) => {
-      if (response.status == 500) {
-        next(vm => vm.fail());
-      } else {
-        next(vm => vm.load(response.data.article));
-      }
-    })
-    .catch((error) => {
-      next(vm => vm.fail());
-      console.log(error);
-    })
-  },
-  beforeRouteUpdate (to, from, next) {
-    const self = this;
-    const name = to.params.name;
-    const url = http + "/articles/" + name;
-    this.axios.get(url)
-    .then((response) => {
-      if (response.status != 200) {
-        self.fail();
-      } else {
-        self.load(response.data.article);
-      }
-    })
-    next();
-  },
   methods: {
-    load(article) {
-      this.notFound = false;
-      article.text = this.sanitize(article.text);
-      this.article = article;
+    load() {
+      const self = this;
+      const name = this.name;
+      const url = http + "/articles/" + name;
+      Axios.get(url)
+      .then((response) => {
+        if (response.status == 500) {
+          self.fail();
+        } else {
+          let article = response.data.article;
+          self.notFound = false;
+          article.text = self.sanitize(article.text);
+          self.article = article;
+          self.getAuthorName();
 
-      this.$ga.page({
-        page: `/${article.name}`,
-        title: article.title,
-        location: window.location.href
-      });
+          self.$ga.page({
+            page: `/${article.name}`,
+            title: article.title,
+            location: window.location.href
+          });
+        }
+      })
+      .catch((error) => {
+        self.fail();
+        console.log(error);
+      })
     },
 
     fail() {
@@ -145,12 +133,16 @@ export default {
       }
     }
   },
-  mounted() {
-    this.getAuthorName();
+  created() {
+    if (!this.loadingAuth) {
+      this.load();
+    }
   },
   watch: {
-    article: function(val) {
-      this.getAuthorName();
+    loadingAuth: function(val) {
+      if (val === false) {
+        this.load();
+      }
     }
   }
 }

@@ -29,12 +29,11 @@ export default {
   data() {
     return {
       user: null,
-      loadingAuth: true
+      loadingAuth: true,
     }
   },
   methods: {
     auth() {
-      this.loadingAuth = true;
       const self = this;
 
       const token = this.$cookie.get('token');
@@ -68,8 +67,13 @@ export default {
       }
     }
   },
-  mounted() {
+  created() {
     this.auth();
+  },
+  watch: {
+    loadingAuth: function(val) {
+      console.log(val);
+    }
   }
 }
 </script>
