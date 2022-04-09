@@ -10,7 +10,7 @@
     "axios": "^0.19.2",
     "buefy": "^0.8.12",
     "core-js": "^3.6.4",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "sanitize-html": "^1.27.1",
     "vue": "^2.6.11",
     "vue-analytics": "^5.22.1",
